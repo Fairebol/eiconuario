@@ -150,6 +150,29 @@ class Model {
         return $this;
     }
 
+    /**
+     * Paginación con LIMIT/OFFSET
+     *
+     * Obtener todos los valores hasta $rows saltandose $fetch registros
+     *
+     * @param int $rows cantidad limite de registros devueltos
+     * @param int $fetch cantidad de registros saltados empezando desde 0
+     * @return false si $rows o $fetch son iguales a nulo 
+     * 
+     * @return this
+     **/
+
+     public function limit(int $rows, int $fetch)
+     {
+        if (!isset($rows) || !isset($fetch)){
+            return true;
+        }
+ 
+        $sql = "SELECT * FROM {$this->table} LIMIT {$rows} OFFSET {$fetch}";
+         
+        return $this->query($sql)->get();
+     }
+
     private function scape($data)
     {
         foreach ($data as $key => $value) {

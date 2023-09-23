@@ -2,19 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Models\Model;
 use App\Models\RoleUser;
 use App\Models\User;
+use App\Models\Course;
 
 class HomeController extends Controller {
 
     public function index()
     {
-        $users = new User();
-        $users = $users->allWithMM('roles', true, ["name", "role"])->get();
 
         return $this->view('index', [
-            'title' => 'Home',
-            'users' => $users
+            'title' => 'Home'
         ]);
     }
 

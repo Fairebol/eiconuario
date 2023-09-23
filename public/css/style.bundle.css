@@ -89,6 +89,14 @@ table {
   background-color: #EBEDF3;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
 .table-hover tbody tr:hover {
   color: #3F4254;
   background-color: #E4E6EF;

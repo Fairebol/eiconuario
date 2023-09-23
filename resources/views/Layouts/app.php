@@ -11,14 +11,11 @@
     <link href="<?= LOCALHOST ?>/css/style.bundle.css?v=<?= time() ?>" rel="stylesheet" type="text/css" />
     <link href="<?= LOCALHOST ?>/css/custom.css" rel="stylesheet" type="text/css" />
     <script src="<?= LOCALHOST ?>/js/fontsicons.js" crossorigin="anonymous"></script>
-    <!-- <script defer src="<?= LOCALHOST ?>/js/alpinejs.js"></script> -->
+    <!-- <script defer src="<?= LOCALHOST ?>/js/alpinejs.js"></script> -->          
 </head>
-<body class="bg-metal w-full text-white">
+<body class="bg-amber-200 w-full text-white custom-scrollbar">
 
-    <div class="top-0 flex flex-col justify-center font-bold w-full text-center">
-        <h1 class="text-3xl w-full">ANUARIO DEL EICO</h1>
-        <span>Sexto Año. Egresados</span>
-    </div>
+    <?php include($child) ?>
 
     <script src="<?= LOCALHOST ?>/js/plugins/plugins.bundle.js"></script>
     <script src="<?= LOCALHOST ?>/js/scripts.bundle.js"></script>
