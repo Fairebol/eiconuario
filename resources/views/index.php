@@ -12,7 +12,7 @@
         <img src="/../eiconuario/public/img/2023.png" alt="" class="absolute flex justify-center w-1/2 h-2/3 transition-transform duration-700 transform hover:scale-105">
     </div>
     <div class="flex justify-center w-full absolute align-middle items-center">
-        <button class="p-4 border-black absolute right-0 align-middle bg-emerald-500 rounded-lg hover:bg-emerald-600 transition-transform duration-200 transform active:scale-90">Siguiente <i class="fas fa-step-forward"></i></button>
+        <button class="p-4 border-black absolute right-0 align-middle bg-emerald-500 rounded-lg hover:bg-emerald-600 transition-transform duration-150 transform active:scale-90">Siguiente <i class="fas fa-step-forward"></i></button>
     </div>
 </div>
 
