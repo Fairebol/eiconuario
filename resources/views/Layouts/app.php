@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link href="<?= LOCALHOST ?>/css/style.bundle.css?v=<?= time() ?>" rel="stylesheet" type="text/css" />
     <link href="<?= LOCALHOST ?>/css/custom.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="s<?= LOCALHOST ?>/css/details.css">
     <script src="<?= LOCALHOST ?>/js/fontsicons.js" crossorigin="anonymous"></script>
-    <!-- <script defer src="<?= LOCALHOST ?>/js/alpinejs.js"></script> -->          
+          
 </head>
-<body class="bg-amber-200 w-full text-white custom-scrollbar">
+<body class="bg-eico w-full custom-scrollbar">
 
     <?php include($child) ?>
 

@@ -9,6 +9,8 @@ use App\Middlewares\Authenticable;
 // Home Routes
 Route::Get('/', [HomeController::class, 'index']);
 
+Route::Get('/course/:page', [HomeController::class, 'courses']);
+
 // Profile-in Routes
 Route::Get('/profile', [HomeController::class, 'profile'], Authenticable::class);
 

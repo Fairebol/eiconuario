@@ -7,7 +7,8 @@ module.exports = {
     
     extend: {
       colors: {
-        'metal': '#565584'
+        'metal': '#565584',
+        'eico': '#d9febd'
       }
     },
   },

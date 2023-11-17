@@ -149,7 +149,7 @@ INSERT INTO `courses` (`id`, `name`) VALUES
 (1, 'IPP'),
 (2, 'IP'),
 (3, 'MMO'),
-(4, 'Electromecánica');
+(4, 'EIE');
 
 --
 -- Filtros para la tabla `users`

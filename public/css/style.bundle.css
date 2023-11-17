@@ -97,6 +97,10 @@ table {
   background-color: transparent;
 }
 
+.center {
+  place-content: center;
+}
+
 .table-hover tbody tr:hover {
   color: #3F4254;
   background-color: #E4E6EF;

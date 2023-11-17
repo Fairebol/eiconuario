@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Course extends Model {
+class Courses extends Model {
 
     protected $table = "courses";
 }
