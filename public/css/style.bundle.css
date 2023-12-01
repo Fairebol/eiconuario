@@ -15353,3 +15353,7 @@ code {
     left: 70px;
   }
 }
+
+.border-b-10 {
+  border-bottom: 20px;
+}

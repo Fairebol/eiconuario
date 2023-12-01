@@ -16,6 +16,37 @@ class HomeController extends Controller {
         ]);
     }
 
+    public function coursesDecoration($page)
+    {
+        $backgroundIMG = "";
+        $ticketIMG = "";
+        $logo = "";
+
+        switch($page)
+        {
+            case 1:
+                $backgroundIMG = LOCALHOST . "/img/backgrounds/IPP.jpg";
+                $logo = LOCALHOST . "/img/logos/IPP.jpg";
+                break;
+            case 2:
+                $backgroundIMG = LOCALHOST . "/img/backgrounds/IP.jpg";
+                $logo = LOCALHOST . "/img/logos/IP.jpg";
+                break;
+            case 3:
+                $backgroundIMG = LOCALHOST . "/img/backgrounds/MMO.jpg";
+                $logo = LOCALHOST . "/img/logos/MMO.jpg";
+                break;
+            case 4:
+                $backgroundIMG = LOCALHOST . "/img/backgrounds/EIE.jpg";
+                $logo = LOCALHOST . "/img/logos/EIE.jpg";
+                break;
+        }
+
+        $courseDecoration = [$backgroundIMG, $ticketIMG, $logo];
+
+        return $courseDecoration;
+    }
+
     public function courses($page)
     {
         $newuser = new User();
@@ -30,11 +61,14 @@ class HomeController extends Controller {
             return $this->redirect('/');
         }
 
+        $coursesDecoration = HomeController::coursesDecoration($page);
+
         return $this->view('course', [
             'title' => "Curso: $coursename",
             'page' => $page,
             'course' => $coursename,
-            'users' => $students
+            'users' => $students,
+            'background' => $coursesDecoration[0]
         ]);
     }
 
