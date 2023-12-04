@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\Model;
-use App\Models\RoleUser;
 use App\Models\User;
 use App\Models\Courses;
 
@@ -11,76 +9,36 @@ class HomeController extends Controller {
 
     public function index()
     {
-        $coursesDecoration = HomeController::coursesDecoration(0);
+        $logo = LOCALHOST . "/img/logos/eico.png";
+        $ticket = LOCALHOST . "/img/TicketCourse.png";
 
         return $this->view('index', [
             'title' => 'Home',
-            'ticket' => $coursesDecoration[1],
-            'logo' => $coursesDecoration[2]
+            'ticket' => $ticket,
+            'logo' => $logo
         ]);
-    }
-
-    public function coursesDecoration($page)
-    {
-        $backgroundIMG = "";
-        $ticketIMG = "";
-        $logo = "";
-        $groupIMG = "";
-
-        switch($page)
-        {
-            case 1:
-                $backgroundIMG = LOCALHOST . "/img/backgrounds/IPP.jpg";
-                $logo = LOCALHOST . "/img/logos/IPP.png";
-                $ticketIMG = LOCALHOST . "/img/tickets/TicketIPP.png";
-                $groupIMG = LOCALHOST . "/img/IPP/group/group.jpg";
-                break;
-            case 2:
-                $backgroundIMG = LOCALHOST . "/img/backgrounds/IP.jpg";
-                $logo = LOCALHOST . "/img/logos/IP.png";
-                $ticketIMG = LOCALHOST . "/img/tickets/TicketIP.png";
-                break;
-            case 3:
-                $backgroundIMG = LOCALHOST . "/img/backgrounds/MMO.jpg";
-                $logo = LOCALHOST . "/img/logos/MMO.png";
-                $ticketIMG = LOCALHOST . "/img/tickets/TicketMMO.png";
-                break;
-            case 4:
-                $backgroundIMG = LOCALHOST . "/img/backgrounds/EIE.jpg";
-                $logo = LOCALHOST . "/img/logos/EIE.png";
-                $ticketIMG = LOCALHOST . "/img/tickets/TicketEIE.png";
-                break;
-            default:
-                $logo = LOCALHOST . "/img/logos/eico.png";
-                $ticketIMG = LOCALHOST . "/img/TicketCourse.png";
-        }
-
-        $courseDecoration = [$backgroundIMG, $ticketIMG, $logo, $groupIMG];
-
-        return $courseDecoration;
     }
 
     public function courses($page)
     {
+        $typecourse = new Courses();
+        $asignatedCourse = $typecourse->where('name', strtoupper($page))->first();
+
+        // no escalable
+        $tecs = [0, "ipp", "ip", "mmo", "eie"];
+        $previouscourse = ($asignatedCourse['id'] == 1 ? $tecs[0] : $tecs[$asignatedCourse['id'] - 1]);
+        $nextcourse = ($asignatedCourse['id'] == 4 ? $tecs[0] : $tecs[$asignatedCourse['id'] + 1]);
+
         $newuser = new User();
-        $students = $newuser->where('course_id', $page)->get();
-        
-        $outstandUsers = array_filter($students, function ($students) {
-            for ($i = 0; $i < count($students); $i++) {
-                if ($students['role_id'] != null) return $students; 
-            }
+        $students = $newuser->where('course_id', $asignatedCourse['id'])->get();
+
+        $coursename = $asignatedCourse['name'];
+
+        $outstandUsers = array_filter($students, function ($student) {
+            if ($student['role_id'] != 0) return $student; 
         });
 
-        $typecourse = new Courses();
-        $asignatedCourse = $typecourse->where('id', $page)->get();
-        $coursename = $asignatedCourse[0]['name'];
-
-        if($page == 0 || $page >= 5)
-        {
-            return $this->redirect('/');
-        }
-
-        $coursesDecoration = HomeController::coursesDecoration($page);
+        [$bg, $logo, $ticket, $group] = $this->get_assets(strtolower($page));
 
         return $this->view('course', [
             'title' => "Curso: $coursename",
@@ -88,11 +46,83 @@ class HomeController extends Controller {
             'course' => $coursename,
             'users' => $students,
             'outstanding' => $outstandUsers,
-            'background' => $coursesDecoration[0],
-            'ticket' => $coursesDecoration[1],
-            'logo' => $coursesDecoration[2],
-            'groupImage' => $coursesDecoration[3]
+            'background' => $bg,
+            'ticket' => $ticket,
+            'logo' => $logo,
+            'groupImage' => $group,
+            'previous' => $previouscourse,
+            'next' => $nextcourse
         ]);
+    }
+
+    public function upload()
+    {
+        return $this->view('upload', [
+            'title' => 'Pagina de subida'
+        ]);
+    }
+
+    public function store_upload()
+    {
+        if ($_POST['psw'] != "eicoanuario2023")
+        {
+            return "Contraseña incorrecta";
+        }
+
+        $csvFile = fopen($_FILES['students']['tmp_name'], 'r');
+        fgetcsv($csvFile);
+
+        $sections = [0, 'IPP', 'IP', 'MMO', 'EIE'];
+
+        $usere = new User();
+
+        $pathimgs = "img/photos/2023/";
+        $errors = 0;
+        
+        while (($getData = fgetcsv($csvFile, 10000, ";")) !== FALSE)
+        {
+            $name = $getData[0];
+            $section = array_search($getData[1], $sections);
+            $role = $getData[2];
+            $path = "photos/2023/" . strtoupper($getData[1]) . "/" . $getData[3];
+
+            if ($name != "Grupal") {
+                $usere->create([
+                    'fullname' => $name,
+                    'pathimg' => $path,
+                    'course_id' => $section,
+                    'role_id' => $role
+                ]);
+            }
+
+            if (is_bool(array_search($getData[3], $_FILES['files']['name']))) {
+                $errors++;
+            } else {
+                $key = array_search($getData[3], $_FILES['files']['name']);
+                $target = $pathimgs . $getData[1] . "/" . basename($_FILES['files']['name'][$key]);
+
+                if (file_exists($target)) continue;
+
+                if (!move_uploaded_file($_FILES["files"]["tmp_name"][$key], $target)) { 
+                    $errors++;
+                    continue;
+                }
+            }
+        }
+
+        fclose($csvFile);
+
+        return "Exitoso con $errors Errores";
+    }
+
+    protected function get_assets($tec)
+    {
+        $bg = LOCALHOST . "/img/backgrounds/$tec.jpg";
+        $logo = LOCALHOST . "/img/logos/$tec.png";
+        $ticket = LOCALHOST . "/img/tickets/Ticket$tec.png";
+        $group = LOCALHOST . "/img/photos/2023/$tec/group.jpg";
+
+        return [$bg, $logo, $ticket, $group];
     }
 
     public function notfound()

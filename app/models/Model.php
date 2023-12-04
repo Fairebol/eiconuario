@@ -78,9 +78,11 @@ class Model {
     {
         $data = $this->scape($data);
 
+        /*
         if ($this->table == "users") {
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
         }
+        */
 
         $cols = array_keys($data);
         $cols = implode(", ", $cols);
