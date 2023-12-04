@@ -11,8 +11,12 @@ class HomeController extends Controller {
 
     public function index()
     {
+        $coursesDecoration = HomeController::coursesDecoration(0);
+
         return $this->view('index', [
-            'title' => 'Home'
+            'title' => 'Home',
+            'ticket' => $coursesDecoration[1],
+            'logo' => $coursesDecoration[2]
         ]);
     }
 
@@ -21,28 +25,37 @@ class HomeController extends Controller {
         $backgroundIMG = "";
         $ticketIMG = "";
         $logo = "";
+        $groupIMG = "";
 
         switch($page)
         {
             case 1:
                 $backgroundIMG = LOCALHOST . "/img/backgrounds/IPP.jpg";
-                $logo = LOCALHOST . "/img/logos/IPP.jpg";
+                $logo = LOCALHOST . "/img/logos/IPP.png";
+                $ticketIMG = LOCALHOST . "/img/tickets/TicketIPP.png";
+                $groupIMG = LOCALHOST . "/img/IPP/group/group.jpg";
                 break;
             case 2:
                 $backgroundIMG = LOCALHOST . "/img/backgrounds/IP.jpg";
-                $logo = LOCALHOST . "/img/logos/IP.jpg";
+                $logo = LOCALHOST . "/img/logos/IP.png";
+                $ticketIMG = LOCALHOST . "/img/tickets/TicketIP.png";
                 break;
             case 3:
                 $backgroundIMG = LOCALHOST . "/img/backgrounds/MMO.jpg";
-                $logo = LOCALHOST . "/img/logos/MMO.jpg";
+                $logo = LOCALHOST . "/img/logos/MMO.png";
+                $ticketIMG = LOCALHOST . "/img/tickets/TicketMMO.png";
                 break;
             case 4:
                 $backgroundIMG = LOCALHOST . "/img/backgrounds/EIE.jpg";
-                $logo = LOCALHOST . "/img/logos/EIE.jpg";
+                $logo = LOCALHOST . "/img/logos/EIE.png";
+                $ticketIMG = LOCALHOST . "/img/tickets/TicketEIE.png";
                 break;
+            default:
+                $logo = LOCALHOST . "/img/logos/eico.png";
+                $ticketIMG = LOCALHOST . "/img/TicketCourse.png";
         }
 
-        $courseDecoration = [$backgroundIMG, $ticketIMG, $logo];
+        $courseDecoration = [$backgroundIMG, $ticketIMG, $logo, $groupIMG];
 
         return $courseDecoration;
     }
@@ -51,6 +64,12 @@ class HomeController extends Controller {
     {
         $newuser = new User();
         $students = $newuser->where('course_id', $page)->get();
+        
+        $outstandUsers = array_filter($students, function ($students) {
+            for ($i = 0; $i < count($students); $i++) {
+                if ($students['role_id'] != null) return $students; 
+            }
+        });
 
         $typecourse = new Courses();
         $asignatedCourse = $typecourse->where('id', $page)->get();
@@ -68,7 +87,11 @@ class HomeController extends Controller {
             'page' => $page,
             'course' => $coursename,
             'users' => $students,
-            'background' => $coursesDecoration[0]
+            'outstanding' => $outstandUsers,
+            'background' => $coursesDecoration[0],
+            'ticket' => $coursesDecoration[1],
+            'logo' => $coursesDecoration[2],
+            'groupImage' => $coursesDecoration[3]
         ]);
     }
 

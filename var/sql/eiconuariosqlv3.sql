@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2023 a las 03:38:59
+-- Tiempo de generación: 04-12-2023 a las 01:42:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -61,8 +61,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'profesor'),
 (2, 'delegado'),
 (3, 'destacado'),
-(4, 'abanderado'),
-(5, 'escolta');
+(4, 'abanderado');
 
 -- --------------------------------------------------------
 
@@ -86,18 +85,65 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `fullname` varchar(60) NOT NULL,
   `pathimg` varchar(100) NOT NULL,
-  `course_id` bigint(20) UNSIGNED DEFAULT NULL
+  `course_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `role_id` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `pathimg`, `course_id`) VALUES
-(1, 'hola', 'IPP/1.jpg', 1),
-(2, 'oña', 'IPP/2.jpg', 1),
-(3, 'JJJJjjj', 'IPP/3.jpg', 1),
-(4, 'profesor', 'IPP/4.jpg', 1);
+INSERT INTO `users` (`id`, `fullname`, `pathimg`, `course_id`, `role_id`) VALUES
+(1, 'Moreno Jeziel ', 'IPP/1.jpg', 1, NULL),
+(2, 'Diego Ayala DESTACADO', 'IPP/2.jpg', 1, 3),
+(3, 'Cristian Diaz Zambrano', 'IPP/3.jpg', 1, NULL),
+(4, 'Profe Aiani', 'IPP/4.jpg', 1, 1),
+(5, 'Alejandro Villareal', 'IPP/1.jpg', 1, NULL),
+(6, 'Cristian Diaz Zambrano', 'IPP/2.jpg', 1, 2),
+(7, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(8, 'profesor', 'IPP/4.jpg', 1, NULL),
+(9, 'hola', 'IPP/1.jpg', 1, NULL),
+(10, 'oña', 'IPP/2.jpg', 1, NULL),
+(11, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(12, 'profesor', 'IPP/4.jpg', 1, NULL),
+(13, 'hola', 'IPP/1.jpg', 1, NULL),
+(14, 'oña', 'IPP/2.jpg', 1, NULL),
+(15, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(16, 'profesor', 'IPP/4.jpg', 1, NULL),
+(17, 'Gordox Romano', 'IPP/1.jpg', 1, 4),
+(18, 'Diego Ayala Romano', 'IPP/2.jpg', 1, NULL),
+(19, 'Cristian Diaz Zambrano', 'IPP/3.jpg', 1, NULL),
+(20, 'Fernando Aiani', 'IPP/4.jpg', 1, NULL),
+(21, 'Alejandro Villareal', 'IPP/1.jpg', 1, NULL),
+(22, 'Cristian Diaz Zambrano', 'IPP/2.jpg', 1, NULL),
+(23, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(24, 'profesor', 'IPP/4.jpg', 1, NULL),
+(25, 'hola', 'IPP/1.jpg', 1, NULL),
+(26, 'oña', 'IPP/2.jpg', 1, NULL),
+(27, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(28, 'profesor', 'IPP/4.jpg', 1, NULL),
+(29, 'hola', 'IPP/1.jpg', 1, NULL),
+(30, 'oña', 'IPP/2.jpg', 1, NULL),
+(31, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(32, 'profesor', 'IPP/4.jpg', 1, NULL),
+(33, 'Moreno Jeziel ', 'IPP/1.jpg', 1, NULL),
+(34, 'Diego Ayala Romano', 'IPP/2.jpg', 1, NULL),
+(35, 'Cristian Diaz Zambrano', 'IPP/3.jpg', 1, NULL),
+(36, 'Fernando Aiani', 'IPP/4.jpg', 1, NULL),
+(37, 'Alejandro Villareal', 'IPP/1.jpg', 1, NULL),
+(38, 'Cristian Diaz Zambrano', 'IPP/2.jpg', 1, NULL),
+(39, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(40, 'profesor', 'IPP/4.jpg', 1, NULL),
+(41, 'hola', 'IPP/1.jpg', 1, NULL),
+(42, 'oña', 'IPP/2.jpg', 1, NULL),
+(43, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(44, 'profesor', 'IPP/4.jpg', 1, NULL),
+(45, 'hola', 'IPP/1.jpg', 1, NULL),
+(46, 'oña', 'IPP/2.jpg', 1, NULL),
+(47, 'JJJJjjj', 'IPP/3.jpg', 1, NULL),
+(48, 'profesor', 'IPP/4.jpg', 1, NULL),
+(49, 'facundo Romano', 'IPP/1.jpg', 1, NULL),
+(50, 'Diego Ayala Romano', 'IPP/2.jpg', 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -150,13 +196,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Restricciones para tablas volcadas
